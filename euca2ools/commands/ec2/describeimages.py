@@ -27,6 +27,7 @@ from euca2ools.commands.ec2 import EC2Request
 from requestbuilder import Arg, Filter, GenericTagFilter
 from requestbuilder.exceptions import ArgumentError
 
+import json
 
 class DescribeImages(EC2Request):
     DESCRIPTION = ('Show information about images\n\nBy default, only images '
@@ -121,6 +122,9 @@ class DescribeImages(EC2Request):
             return self.send()
 
     def print_result(self, result):
+        if self.args['json']:
+            print json.dumps(result, sort_keys=True, indent=2)
+            return
         images = {}
         for image in result.get('imagesSet', []):
             images.setdefault(image['imageId'], image)

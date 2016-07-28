@@ -27,6 +27,7 @@ from requestbuilder import Arg, Filter, GenericTagFilter
 
 from euca2ools.commands.ec2 import EC2Request
 
+import json
 
 class DescribeNetworkAcls(EC2Request):
     DESCRIPTION = 'Describe one or more network ACLs'
@@ -69,5 +70,8 @@ class DescribeNetworkAcls(EC2Request):
     LIST_TAGS = ['associationSet', 'entrySet', 'networkAclSet', 'tagSet']
 
     def print_result(self, result):
+        if self.args['json']:
+            print json.dumps(result, sort_keys=True, indent=2)
+            return
         for acl in result.get('networkAclSet') or []:
             self.print_network_acl(acl)

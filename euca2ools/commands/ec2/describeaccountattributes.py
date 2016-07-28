@@ -27,6 +27,7 @@ from requestbuilder import Arg
 
 from euca2ools.commands.ec2 import EC2Request
 
+import json
 
 class DescribeAccountAttributes(EC2Request):
     DESCRIPTION = 'Show information about your account'
@@ -35,6 +36,9 @@ class DescribeAccountAttributes(EC2Request):
     LIST_TAGS = ['accountAttributeSet', 'attributeValueSet']
 
     def print_result(self, result):
+        if self.args['json']:
+            print json.dumps(result, sort_keys=True, indent=2)
+            return
         for attr in result.get('accountAttributeSet') or []:
             print self.tabify(('ACCOUNTATTRIBUTE', attr.get('attributeName')))
             for value in attr.get('attributeValueSet') or []:

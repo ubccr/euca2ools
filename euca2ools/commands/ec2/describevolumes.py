@@ -26,6 +26,7 @@
 from euca2ools.commands.ec2 import EC2Request
 from requestbuilder import Arg, Filter, GenericTagFilter
 
+import json
 
 class DescribeVolumes(EC2Request):
     DESCRIPTION = 'Display information about volumes'
@@ -55,5 +56,8 @@ class DescribeVolumes(EC2Request):
     LIST_TAGS = ['volumeSet', 'attachmentSet', 'tagSet']
 
     def print_result(self, result):
+        if self.args['json']:
+            print json.dumps(result, sort_keys=True, indent=2)
+            return
         for volume in result.get('volumeSet'):
             self.print_volume(volume)

@@ -28,6 +28,8 @@ from requestbuilder.mixins import TabifyingMixin
 
 from euca2ools.commands.ec2 import EC2Request
 
+import json
+
 
 class DescribeInstanceTypes(EC2Request, TabifyingMixin):
     DESCRIPTION = '[Eucalyptus only] Show information about instance types'
@@ -46,6 +48,9 @@ class DescribeInstanceTypes(EC2Request, TabifyingMixin):
             self.params['Availability'] = True
 
     def print_result(self, result):
+        if self.args['json']:
+            print json.dumps(result, sort_keys=True, indent=2)
+            return
         vmtype_names = []  # Use a list since py2.6 lacks OrderedDict
         vmtypes = {}  # vmtype -> info and total capacity
         zones = {}  # zone -> vmtype -> info and zone capacity

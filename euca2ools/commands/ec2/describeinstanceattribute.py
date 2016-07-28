@@ -29,6 +29,7 @@ from requestbuilder import Arg, MutuallyExclusiveArgList
 
 from euca2ools.commands.ec2 import EC2Request
 
+import json
 
 class DescribeInstanceAttribute(EC2Request):
     DESCRIPTION = ("Show one of an instance's attributes.\n\n"
@@ -79,6 +80,9 @@ class DescribeInstanceAttribute(EC2Request):
     LIST_TAGS = ['blockDeviceMapping', 'groupSet', 'productCodes']
 
     def print_result(self, result):
+        if self.args['json']:
+            print json.dumps(result, sort_keys=True, indent=2)
+            return
         # Deal with complex data first
         if self.args['Attribute'] == 'blockDeviceMapping':
             for mapping in result.get('blockDeviceMapping', []):

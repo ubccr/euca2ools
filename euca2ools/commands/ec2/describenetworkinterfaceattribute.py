@@ -27,6 +27,7 @@ from requestbuilder import Arg, MutuallyExclusiveArgList
 
 from euca2ools.commands.ec2 import EC2Request
 
+import json
 
 class DescribeNetworkInterfaceAttribute(EC2Request):
     DESCRIPTION = 'Show an attribute of a VPC network interface'
@@ -50,6 +51,9 @@ class DescribeNetworkInterfaceAttribute(EC2Request):
     LIST_TAGS = ['groupSet']
 
     def print_result(self, result):
+        if self.args['json']:
+            print json.dumps(result, sort_keys=True, indent=2)
+            return
         print self.tabify(('NETWORKINTERFACE', result.get('networkInterfaceId'),
                            self.args['Attribute']))
         if self.args['Attribute'] == 'description':

@@ -27,6 +27,7 @@ from requestbuilder import Filter
 
 from euca2ools.commands.ec2 import EC2Request
 
+import json
 
 class DescribeTags(EC2Request):
     DESCRIPTION = "List tags associated with your account's resources"
@@ -37,6 +38,9 @@ class DescribeTags(EC2Request):
     LIST_TAGS = ['tagSet']
 
     def print_result(self, result):
+        if self.args['json']:
+            print json.dumps(result, sort_keys=True, indent=2)
+            return
         for tag in result.get('tagSet', []):
             print self.tabify(['TAG', tag.get('resourceType'),
                                tag.get('resourceId'), tag.get('key'),

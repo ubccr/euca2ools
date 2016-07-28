@@ -26,6 +26,7 @@
 from euca2ools.commands.ec2 import EC2Request
 from requestbuilder import Arg, Filter
 
+import json
 
 class DescribeBundleTasks(EC2Request):
     DESCRIPTION = 'Describe current instance-bundling tasks'
@@ -47,5 +48,8 @@ class DescribeBundleTasks(EC2Request):
     LIST_TAGS = ['bundleInstanceTasksSet']
 
     def print_result(self, result):
+        if self.args['json']:
+            print json.dumps(result, sort_keys=True, indent=2)
+            return
         for task in result.get('bundleInstanceTasksSet', []):
             self.print_bundle_task(task)

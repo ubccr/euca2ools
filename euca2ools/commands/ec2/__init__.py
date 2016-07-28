@@ -72,6 +72,12 @@ class EC2Request(AWSQueryRequest, TabifyingMixin):
     AUTH_CLASS = requestbuilder.auth.aws.HmacV4Auth
     METHOD = 'POST'
 
+    ARGS = [
+            Arg('-j', '--json',
+                action='store_const', const='true', route_to=None,
+                help='''Output in json format''')
+            ]
+
     def __init__(self, **kwargs):
         AWSQueryRequest.__init__(self, **kwargs)
 

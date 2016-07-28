@@ -27,6 +27,8 @@ from requestbuilder import Arg, Filter, GenericTagFilter
 
 from euca2ools.commands.ec2 import EC2Request
 
+import json
+
 
 class DescribeInternetGateways(EC2Request):
     DESCRIPTION = 'Describe one or more VPC Internet gateways'
@@ -47,5 +49,8 @@ class DescribeInternetGateways(EC2Request):
     LIST_TAGS = ['attachmentSet', 'internetGatewaySet', 'tagSet']
 
     def print_result(self, result):
+        if self.args['json']:
+            print json.dumps(result, sort_keys=True, indent=2)
+            return
         for igw in result.get('internetGatewaySet') or []:
             self.print_internet_gateway(igw)

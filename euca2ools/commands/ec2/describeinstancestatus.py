@@ -29,6 +29,8 @@ from requestbuilder import Arg, Filter
 
 from euca2ools.commands.ec2 import EC2Request
 
+import json
+
 
 class DescribeInstanceStatus(EC2Request):
     DESCRIPTION = 'Show information about instance status and scheduled events'
@@ -70,6 +72,9 @@ class DescribeInstanceStatus(EC2Request):
     LIST_TAGS = ['instanceStatusSet', 'details', 'eventsSet']
 
     def print_result(self, result):
+        if self.args['json']:
+            print json.dumps(result, sort_keys=True, indent=2)
+            return
         for sset in result.get('instanceStatusSet') or []:
             if (self.args.get('hide_healthy', False) and
                     sset.get('systemStatus', {}).get('status') == 'ok' and

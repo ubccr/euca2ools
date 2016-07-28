@@ -27,6 +27,7 @@ from requestbuilder import Arg, Filter, GenericTagFilter
 
 from euca2ools.commands.ec2 import EC2Request
 
+import json
 
 class DescribeRouteTables(EC2Request):
     DESCRIPTION = 'Describe one or more VPC route tables'
@@ -69,5 +70,8 @@ class DescribeRouteTables(EC2Request):
                  'routeSet', 'tagSet']
 
     def print_result(self, result):
+        if self.args['json']:
+            print json.dumps(result, sort_keys=True, indent=2)
+            return
         for table in result.get('routeTableSet') or []:
             self.print_route_table(table)

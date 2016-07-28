@@ -26,6 +26,7 @@
 from euca2ools.commands.ec2 import EC2Request
 from requestbuilder import Arg, Filter
 
+import json
 
 class DescribeKeyPairs(EC2Request):
     DESCRIPTION = 'Display information about available key pairs'
@@ -36,6 +37,9 @@ class DescribeKeyPairs(EC2Request):
     LIST_TAGS = ['keySet']
 
     def print_result(self, result):
+        if self.args['json']:
+            print json.dumps(result, sort_keys=True, indent=2)
+            return
         for key in result.get('keySet', []):
             print self.tabify(('KEYPAIR', key.get('keyName'),
                                key.get('keyFingerprint')))

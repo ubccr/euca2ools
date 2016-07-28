@@ -25,6 +25,7 @@
 
 from euca2ools.commands.ec2 import EC2Request
 from requestbuilder import Arg, Filter, GenericTagFilter
+import json
 
 
 class DescribeInstances(EC2Request):
@@ -186,5 +187,8 @@ class DescribeInstances(EC2Request):
                  'privateIpAddressesSet']
 
     def print_result(self, result):
+        if self.args['json']:
+            print json.dumps(result, sort_keys=True, indent=2)
+            return
         for reservation in result.get('reservationSet'):
             self.print_reservation(reservation)

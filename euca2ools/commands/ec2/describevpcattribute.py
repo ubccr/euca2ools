@@ -27,6 +27,8 @@ from requestbuilder import Arg, MutuallyExclusiveArgList
 
 from euca2ools.commands.ec2 import EC2Request
 
+import json
+
 
 class DescribeVpcAttribute(EC2Request):
     DESCRIPTION = 'Show an attribute of a VPC'
@@ -43,6 +45,9 @@ class DescribeVpcAttribute(EC2Request):
             .required()]
 
     def print_result(self, result):
+        if self.args['json']:
+            print json.dumps(result, sort_keys=True, indent=2)
+            return
         if self.args['Attribute'] == 'enableDnsHostnames':
             print self.tabify(('RETURN',
                                result['enableDnsHostnames'].get('value')))

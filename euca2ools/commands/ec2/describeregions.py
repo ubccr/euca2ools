@@ -26,7 +26,6 @@
 from euca2ools.commands.ec2 import EC2Request
 from requestbuilder import Arg, Filter
 
-import json
 
 class DescribeRegions(EC2Request):
     DESCRIPTION = 'Display information about regions'
@@ -36,10 +35,7 @@ class DescribeRegions(EC2Request):
                Filter('region-name')]
     LIST_TAGS = ['regionInfo']
 
-    def print_result(self, result):
-        if self.args['json']:
-            print json.dumps(result, sort_keys=True, indent=2)
-            return
+    def print_result_native(self, result):
         for region in result.get('regionInfo', []):
             print self.tabify(('REGION', region.get('regionName'),
                                region.get('regionEndpoint')))

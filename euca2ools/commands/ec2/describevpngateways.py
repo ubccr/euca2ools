@@ -27,8 +27,6 @@ from requestbuilder import Arg, Filter, GenericTagFilter
 
 from euca2ools.commands.ec2 import EC2Request
 
-import json
-
 
 class DescribeVpnGateways(EC2Request):
     DESCRIPTION = 'Show information about virtual private gateways'
@@ -53,9 +51,6 @@ class DescribeVpnGateways(EC2Request):
 
     LIST_TAGS = ['attachments', 'vpnGatewaySet', 'tagSet']
 
-    def print_result(self, result):
-        if self.args['json']:
-            print json.dumps(result, sort_keys=True, indent=2)
-            return
+    def print_result_native(self, result):
         for vgw in result.get('vpnGatewaySet', []):
             self.print_vpn_gateway(vgw)

@@ -27,7 +27,6 @@ from euca2ools.commands.ec2 import EC2Request
 from requestbuilder import Arg, Filter, GenericTagFilter
 from requestbuilder.exceptions import ArgumentError
 
-import json
 
 class DescribeSnapshots(EC2Request):
     DESCRIPTION = ('Show information about snapshots\n\nBy default, only '
@@ -86,9 +85,6 @@ class DescribeSnapshots(EC2Request):
         else:
             return self.send()
 
-    def print_result(self, result):
-        if self.args['json']:
-            print json.dumps(result, sort_keys=True, indent=2)
-            return
+    def print_result_native(self, result):
         for snapshot in result.get('snapshotSet', []):
             self.print_snapshot(snapshot)

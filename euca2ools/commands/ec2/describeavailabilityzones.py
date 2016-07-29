@@ -26,8 +26,6 @@
 from euca2ools.commands.ec2 import EC2Request
 from requestbuilder import Arg, Filter
 
-import json
-
 
 class DescribeAvailabilityZones(EC2Request):
     DESCRIPTION = 'Display availability zones within the current region'
@@ -41,10 +39,7 @@ class DescribeAvailabilityZones(EC2Request):
                Filter('zone-name', help='name of the availability zone')]
     LIST_TAGS = ['availabilityZoneInfo', 'messageSet']
 
-    def print_result(self, result):
-        if self.args['json']:
-            print json.dumps(result, sort_keys=True, indent=2)
-            return
+    def print_result_native(self, result):
         for zone in result.get('availabilityZoneInfo', []):
             msgs = ', '.join(msg for msg in zone.get('messageSet', []))
             print self.tabify(('AVAILABILITYZONE', zone.get('zoneName'),

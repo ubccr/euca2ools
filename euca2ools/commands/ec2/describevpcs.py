@@ -27,7 +27,6 @@ from requestbuilder import Arg, Filter, GenericTagFilter
 
 from euca2ools.commands.ec2 import EC2Request
 
-import json
 
 class DescribeVpcs(EC2Request):
     DESCRIPTION = 'Show information about VPCs'
@@ -44,9 +43,6 @@ class DescribeVpcs(EC2Request):
                Filter('vpc-id', help="the VPC's ID")]
     LIST_TAGS = ['tagSet', 'vpcSet']
 
-    def print_result(self, result):
-        if self.args['json']:
-            print json.dumps(result, sort_keys=True, indent=2)
-            return
+    def print_result_native(self, result):
         for vpc in result.get('vpcSet') or []:
             self.print_vpc(vpc)

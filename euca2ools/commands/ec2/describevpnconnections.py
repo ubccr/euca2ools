@@ -30,8 +30,6 @@ import six
 
 from euca2ools.commands.ec2 import EC2Request
 
-import json
-
 
 class DescribeVpnConnections(EC2Request):
     DESCRIPTION = 'Show information about VPN connections'
@@ -74,10 +72,7 @@ class DescribeVpnConnections(EC2Request):
                       help='ID of the connected virtual private gateway')]
     LIST_TAGS = ['vpnConnectionSet', 'tagSet']
 
-    def print_result(self, result):
-        if self.args['json']:
-            print json.dumps(result, sort_keys=True, indent=2)
-            return
+    def print_result_native(self, result):
         if self.args.get('format') is None:
             stylesheet = self.args.get('stylesheet')
             show_conn_info = bool(stylesheet)

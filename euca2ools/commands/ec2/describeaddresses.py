@@ -26,7 +26,6 @@
 from euca2ools.commands.ec2 import EC2Request
 from requestbuilder import Arg, Filter
 
-import json
 
 class DescribeAddresses(EC2Request):
     DESCRIPTION = 'Show information about elastic IP addresses'
@@ -57,10 +56,7 @@ class DescribeAddresses(EC2Request):
         if public_ips:
             self.params['PublicIp'] = list(sorted(public_ips))
 
-    def print_result(self, result):
-        if self.args['json']:
-            print json.dumps(result, sort_keys=True, indent=2)
-            return
+    def print_result_native(self, result):
         for addr in result.get('addressesSet', []):
             print self.tabify(('ADDRESS', addr.get('publicIp'),
                                addr.get('instanceId'),

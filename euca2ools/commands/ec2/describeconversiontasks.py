@@ -26,7 +26,6 @@
 from euca2ools.commands.ec2 import EC2Request
 from requestbuilder import Arg
 
-import json
 
 class DescribeConversionTasks(EC2Request):
     DESCRIPTION = 'Show information about import operations'
@@ -34,9 +33,6 @@ class DescribeConversionTasks(EC2Request):
                 help='limit results to specific tasks')]
     LIST_TAGS = ['conversionTasks', 'volumes']
 
-    def print_result(self, result):
-        if self.args['json']:
-            print json.dumps(result, sort_keys=True, indent=2)
-            return
+    def print_result_native(self, result):
         for task in result.get('conversionTasks') or []:
             self.print_conversion_task(task)

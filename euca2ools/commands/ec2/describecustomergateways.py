@@ -27,7 +27,6 @@ from requestbuilder import Arg, Filter, GenericTagFilter
 
 from euca2ools.commands.ec2 import EC2Request
 
-import json
 
 class DescribeCustomerGateways(EC2Request):
     DESCRIPTION = 'Show information about VPN customer gateways'
@@ -49,9 +48,6 @@ class DescribeCustomerGateways(EC2Request):
 
     LIST_TAGS = ['customerGatewaySet', 'tagSet']
 
-    def print_result(self, result):
-        if self.args['json']:
-            print json.dumps(result, sort_keys=True, indent=2)
-            return
+    def print_result_native(self, result):
         for cgw in result.get('customerGatewaySet', []):
             self.print_customer_gateway(cgw)

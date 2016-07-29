@@ -26,7 +26,6 @@
 from euca2ools.commands.ec2 import EC2Request
 from requestbuilder import Arg, Filter, GenericTagFilter
 
-import json
 
 class DescribeSecurityGroups(EC2Request):
     DESCRIPTION = ('Show information about security groups\n\nNote that '
@@ -72,10 +71,7 @@ class DescribeSecurityGroups(EC2Request):
                 self.params.setdefault('GroupName', [])
                 self.params['GroupName'].append(group)
 
-    def print_result(self, result):
-        if self.args['json']:
-            print json.dumps(result, sort_keys=True, indent=2)
-            return
+    def print_result_native(self, result):
         for group in result.get('securityGroupInfo', []):
             self.print_group(group)
 

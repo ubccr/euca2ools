@@ -82,7 +82,7 @@ class EC2Request(AWSQueryRequest, TabifyingMixin):
 
     def print_result(self, result):
         if self.args.get('json'):
-            print json.dumps(result, sort_keys=True, indent=2) 
+            print json.dumps(result, sort_keys=True, indent=2)
         else:
             self.print_result_native(result)
 

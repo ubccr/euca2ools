@@ -73,15 +73,14 @@ class EC2Request(AWSQueryRequest, TabifyingMixin):
     AUTH_CLASS = requestbuilder.auth.aws.HmacV4Auth
     METHOD = 'POST'
 
-    ARGS = [Arg('-j', '--json',
-                action='store_const', const='true', route_to=None,
-                help='''Output in json format''')]
+    ARGS = [Arg('--pretty', choices=('json',), route_to=None,
+                help='''Pretty print output format''')]
 
     def __init__(self, **kwargs):
         AWSQueryRequest.__init__(self, **kwargs)
 
     def print_result(self, result):
-        if self.args.get('json'):
+        if self.args.get('pretty') == 'json':
             print json.dumps(result, sort_keys=True, indent=2)
         else:
             self.print_result_native(result)

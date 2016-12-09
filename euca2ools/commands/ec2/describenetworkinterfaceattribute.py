@@ -50,7 +50,7 @@ class DescribeNetworkInterfaceAttribute(EC2Request):
 
     LIST_TAGS = ['groupSet']
 
-    def print_result_native(self, result):
+    def print_result_plain(self, result):
         if self.args['json']:
             print json.dumps(result, sort_keys=True, indent=2)
             return

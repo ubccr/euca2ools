@@ -81,9 +81,21 @@ class EC2Request(AWSQueryRequest, TabifyingMixin):
 
     def print_result(self, result):
         if self.args.get('pretty') == 'json':
-            print json.dumps(result, sort_keys=True, indent=2)
+            self.print_result_json(result)
         else:
-            self.print_result_native(result)
+            self.print_result_plain(result)
+
+    def print_result_json(self, result):
+        '''
+        Pretty print result in json format
+        '''
+        print json.dumps(result, sort_keys=True, indent=2)
+
+    def print_result_plain(self, result):
+        '''
+        Print result in plain format (default)
+        '''
+        pass
 
     def print_resource_tag(self, resource_tag, resource_id):
         resource_type = RESOURCE_TYPE_MAP.lookup(resource_id)

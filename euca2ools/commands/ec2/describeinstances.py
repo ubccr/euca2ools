@@ -185,6 +185,6 @@ class DescribeInstances(EC2Request):
                  'blockDeviceMapping', 'productCodes', 'networkInterfaceSet',
                  'privateIpAddressesSet']
 
-    def print_result_native(self, result):
+    def print_result_plain(self, result):
         for reservation in result.get('reservationSet'):
             self.print_reservation(reservation)

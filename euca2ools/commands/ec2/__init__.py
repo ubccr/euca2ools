@@ -74,7 +74,7 @@ class EC2Request(AWSQueryRequest, TabifyingMixin):
     METHOD = 'POST'
 
     ARGS = [Arg('--pretty', choices=('json',), route_to=None,
-                help='''Pretty print output format''')]
+                help='''pretty print output format''')]
 
     def __init__(self, **kwargs):
         AWSQueryRequest.__init__(self, **kwargs)

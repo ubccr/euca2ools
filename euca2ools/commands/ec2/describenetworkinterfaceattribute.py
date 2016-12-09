@@ -51,9 +51,6 @@ class DescribeNetworkInterfaceAttribute(EC2Request):
     LIST_TAGS = ['groupSet']
 
     def print_result_plain(self, result):
-        if self.args['json']:
-            print json.dumps(result, sort_keys=True, indent=2)
-            return
         print self.tabify(('NETWORKINTERFACE',
                            result.get('networkInterfaceId'),
                            self.args['Attribute']))
